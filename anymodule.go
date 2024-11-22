@@ -5,19 +5,19 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func CreateModuleBoilerplate(c *fiber.Ctx, moduleboilerplateCRUD moduleboilerplate.SetterLib) error {
+func Create(c *fiber.Ctx, moduleboilerplateCRUD moduleboilerplate.SetterLib) error {
 	responseData := "test"
 	return c.Status(fiber.StatusOK).JSON(responseData)
 
 }
 
-func UpdateModuleBoilerplate(c *fiber.Ctx, moduleboilerplateCRUD moduleboilerplate.SetterLib) error {
+func Update(c *fiber.Ctx, moduleboilerplateCRUD moduleboilerplate.SetterLib) error {
 	responseData := "test"
 	return c.Status(fiber.StatusOK).JSON(responseData)
 	
 }
 
-func DeleteModuleBoilerplate(c *fiber.Ctx, moduleboilerplateCRUD moduleboilerplate.SetterLib) error {
+func Delete(c *fiber.Ctx, moduleboilerplateCRUD moduleboilerplate.SetterLib) error {
 	responseData := "test"
 	return c.Status(fiber.StatusOK).JSON(responseData)
 	

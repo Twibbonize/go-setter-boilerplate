@@ -124,24 +124,22 @@ func main() {
 		MaxAge:           43200, // 12 hours
 	}))
 
-	// Create ModuleBoilerplate
 	app.Post("/", func(c *fiber.Ctx) error {
-		moduleboilerplateCollection := mongoClient.Database("databaseName").Collection("moduleboilerplate")
-		moduleboilerplateCRUD := moduleboilerplate.NewSetterLib(moduleboilerplateCollection, &redisClient)
-		return CreateModuleBoilerplate(c, *moduleboilerplateCRUD)
+		anyCollection := mongoClient.Database("databaseName").Collection("moduleboilerplate")
+		anyModuleSetter := moduleboilerplate.NewSetterLib(anyCollection, &redisClient)
+		return Create(c, *anyModuleSetter)
 	})
 
-	// Update ModuleBoilerplate
 	app.Patch("/:uuid", func(c *fiber.Ctx) error {
-		moduleboilerplateCollection := mongoClient.Database("databaseName").Collection("moduleboilerplate")
-		moduleboilerplateCRUD := moduleboilerplate.NewSetterLib(moduleboilerplateCollection, &redisClient)
-		return UpdateModuleBoilerplate(c, *moduleboilerplateCRUD)
+		anyCollection := mongoClient.Database("databaseName").Collection("moduleboilerplate")
+		anyModuleSetter := moduleboilerplate.NewSetterLib(anyCollection, &redisClient)
+		return Update(c, *anyModuleSetter)
 	})
 
 	app.Delete("/:uuid", func(c *fiber.Ctx) error {
-		moduleboilerplateCollection := mongoClient.Database("databaseName").Collection("moduleboilerplate")
-		moduleboilerplateCRUD := moduleboilerplate.NewSetterLib(moduleboilerplateCollection, &redisClient)
-		return DeleteModuleBoilerplate(c, *moduleboilerplateCRUD)
+		anyCollection := mongoClient.Database("databaseName").Collection("moduleboilerplate")
+		anyModuleSetter := moduleboilerplate.NewSetterLib(anyCollection, &redisClient)
+		return Delete(c, *anyModuleSetter)
 	})
 
 
