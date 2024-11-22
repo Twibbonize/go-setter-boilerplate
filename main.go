@@ -90,7 +90,7 @@ func connectRedis() redis.UniversalClient {
 	client := redis.NewClient(&redis.Options{
 		Addr:     redisHost,
 		Password: os.Getenv("REDIS_PASS"),
-		DB:       0, 
+		DB:       0,
 	})
 
 	_, err := client.Ping(context.Background()).Result()
@@ -107,14 +107,14 @@ func main() {
 
 	mongoClient = connectMongo()
 	redisClient = connectRedis()
-	
+
 	app := fiber.New()
 	envOrigins := os.Getenv("ORIGIN")
 	envOrigins = strings.Replace(envOrigins, "*", "", -1)
 
 	originList := strings.Split(envOrigins, ",")
 	allowedOrigins := append(originList, "http://localhost:5174", "https://localhost:5174")
-	
+
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     strings.Join(allowedOrigins, ","),
 		AllowMethods:     "GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD",
@@ -141,7 +141,6 @@ func main() {
 		anyModuleSetter := moduleboilerplate.NewSetterLib(anyCollection, &redisClient)
 		return Delete(c, *anyModuleSetter)
 	})
-
 
 	defer func() {
 

@@ -14,11 +14,11 @@ func Create(c *fiber.Ctx, moduleboilerplateCRUD moduleboilerplate.SetterLib) err
 func Update(c *fiber.Ctx, moduleboilerplateCRUD moduleboilerplate.SetterLib) error {
 	responseData := "test"
 	return c.Status(fiber.StatusOK).JSON(responseData)
-	
+
 }
 
 func Delete(c *fiber.Ctx, moduleboilerplateCRUD moduleboilerplate.SetterLib) error {
 	responseData := "test"
 	return c.Status(fiber.StatusOK).JSON(responseData)
-	
+
 }
