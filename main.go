@@ -12,8 +12,10 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"google.golang.org/grpc"
 
 	moduleboilerplate "github.com/Twibbonize/go-module-boilerplate-mongodb"
+	pb_anymodule "github.com/Twibbonize/go-setter-boilerplate/protos/anymodule/protos"
 
 	"github.com/redis/go-redis/v9"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -107,6 +109,16 @@ func main() {
 
 	mongoClient = connectMongo()
 	redisClient = connectRedis()
+
+	s := grpc.NewServer()
+	anyCollection := mongoClient.Database("databaseName").Collection("moduleboilerplate")
+	anyModuleSetter := moduleboilerplate.NewSetterLib(anyCollection, &redisClient)
+	anyModuleGetter := moduleboilerplate.NewGetterLib(redisClient)
+
+	pb_anymodule.RegisterSetterServer(s, &server{
+		anyModuleSetter: *anyModuleSetter,
+		anyModuleGetter: *anyModuleGetter,
+	})
 
 	app := fiber.New()
 	envOrigins := os.Getenv("ORIGIN")
