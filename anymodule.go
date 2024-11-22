@@ -75,19 +75,19 @@ func (s *server) DeleteManyByAnyUUID(ctx context.Context, in *pb_anymodule.Delet
 	return &pb_anymodule.IngestStatus{Status: &pb_anymodule.IngestStatus{}}, nil
 }
 
-func Create(c *fiber.Ctx, moduleboilerplateCRUD moduleboilerplate.SetterLib) error {
+func Create(c *fiber.Ctx, anyModuleSetter moduleboilerplate.SetterLib) error {
 	responseData := "test"
 	return c.Status(fiber.StatusOK).JSON(responseData)
 
 }
 
-func Update(c *fiber.Ctx, moduleboilerplateCRUD moduleboilerplate.SetterLib) error {
+func Update(c *fiber.Ctx, anyModuleSetter moduleboilerplate.SetterLib) error {
 	responseData := "test"
 	return c.Status(fiber.StatusOK).JSON(responseData)
 
 }
 
-func Delete(c *fiber.Ctx, moduleboilerplateCRUD moduleboilerplate.SetterLib) error {
+func Delete(c *fiber.Ctx, anyModuleSetter moduleboilerplate.SetterLib) error {
 	responseData := "test"
 	return c.Status(fiber.StatusOK).JSON(responseData)
 
