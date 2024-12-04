@@ -4,10 +4,10 @@ package anymodule_proto;
 option go_package = "./protos";
 
 service Setter {
-	rpc SeedOneByRandId(IngestRequestByRandId) returns (IngestStatus) {}
-	rpc SeedOneByUUID(IngestRequestByUUID) returns (IngestStatus) {}
-	rpc SeedMany(IngestRequest) returns (IngestStatus) {}
-	rpc DeleteManyByAnyUUID(DeleteAllRequest) returns (IngestStatus) {}
+	rpc SeedOneByRandId(IngestRequestByRandId) returns (AnyModuleIngestStatus) {}
+	rpc SeedOneByUUID(IngestRequestByUUID) returns (AnyModuleIngestStatus) {}
+	rpc SeedMany(IngestRequest) returns (AnyModuleIngestStatus) {}
+	rpc DeleteManyByAnyUUID(DeleteAllRequest) returns (AnyModuleIngestStatus) {}
 }
 
 message IngestRequestByRandId {
@@ -30,8 +30,8 @@ message IngestRequest {
     string ValidLastUUID = 4;
 }
 
-message IngestStatus {
-    IngestStatus Status = 1;  
+message AnyModuleIngestStatus {
+	EnumStatus Status = 1;  
 }
 
 enum EnumStatus {

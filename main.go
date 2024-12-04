@@ -113,7 +113,7 @@ func main() {
 	s := grpc.NewServer()
 	anyCollection := mongoClient.Database("databaseName").Collection("moduleboilerplate")
 	anyModuleSetter := moduleboilerplate.NewSetterLib(anyCollection, &redisClient)
-	anyModuleGetter := moduleboilerplate.NewGetterLib(redisClient)
+	anyModuleGetter := moduleboilerplate.NewGetterLib(&redisClient)
 
 	pb_anymodule.RegisterSetterServer(s, &server{
 		anyModuleSetter: *anyModuleSetter,
@@ -139,19 +139,19 @@ func main() {
 	app.Post("/", func(c *fiber.Ctx) error {
 		anyCollection := mongoClient.Database("databaseName").Collection("moduleboilerplate")
 		anyModuleSetter := moduleboilerplate.NewSetterLib(anyCollection, &redisClient)
-		return Create(c, *anyModuleSetter)
+		return Create(c, anyModuleSetter)
 	})
 
 	app.Patch("/:uuid", func(c *fiber.Ctx) error {
 		anyCollection := mongoClient.Database("databaseName").Collection("moduleboilerplate")
 		anyModuleSetter := moduleboilerplate.NewSetterLib(anyCollection, &redisClient)
-		return Update(c, *anyModuleSetter)
+		return Update(c, anyModuleSetter)
 	})
 
 	app.Delete("/:uuid", func(c *fiber.Ctx) error {
 		anyCollection := mongoClient.Database("databaseName").Collection("moduleboilerplate")
 		anyModuleSetter := moduleboilerplate.NewSetterLib(anyCollection, &redisClient)
-		return Delete(c, *anyModuleSetter)
+		return Delete(c, anyModuleSetter)
 	})
 
 	defer func() {

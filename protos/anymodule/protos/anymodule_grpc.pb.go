@@ -22,10 +22,10 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SetterClient interface {
-	SeedOneByRandId(ctx context.Context, in *IngestRequestByRandId, opts ...grpc.CallOption) (*IngestStatus, error)
-	SeedOneByUUID(ctx context.Context, in *IngestRequestByUUID, opts ...grpc.CallOption) (*IngestStatus, error)
-	SeedMany(ctx context.Context, in *IngestRequest, opts ...grpc.CallOption) (*IngestStatus, error)
-	DeleteManyByAnyUUID(ctx context.Context, in *DeleteAllRequest, opts ...grpc.CallOption) (*IngestStatus, error)
+	SeedOneByRandId(ctx context.Context, in *IngestRequestByRandId, opts ...grpc.CallOption) (*AnyModuleIngestStatus, error)
+	SeedOneByUUID(ctx context.Context, in *IngestRequestByUUID, opts ...grpc.CallOption) (*AnyModuleIngestStatus, error)
+	SeedMany(ctx context.Context, in *IngestRequest, opts ...grpc.CallOption) (*AnyModuleIngestStatus, error)
+	DeleteManyByAnyUUID(ctx context.Context, in *DeleteAllRequest, opts ...grpc.CallOption) (*AnyModuleIngestStatus, error)
 }
 
 type setterClient struct {
@@ -36,8 +36,8 @@ func NewSetterClient(cc grpc.ClientConnInterface) SetterClient {
 	return &setterClient{cc}
 }
 
-func (c *setterClient) SeedOneByRandId(ctx context.Context, in *IngestRequestByRandId, opts ...grpc.CallOption) (*IngestStatus, error) {
-	out := new(IngestStatus)
+func (c *setterClient) SeedOneByRandId(ctx context.Context, in *IngestRequestByRandId, opts ...grpc.CallOption) (*AnyModuleIngestStatus, error) {
+	out := new(AnyModuleIngestStatus)
 	err := c.cc.Invoke(ctx, "/anymodule_proto.Setter/SeedOneByRandId", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -45,8 +45,8 @@ func (c *setterClient) SeedOneByRandId(ctx context.Context, in *IngestRequestByR
 	return out, nil
 }
 
-func (c *setterClient) SeedOneByUUID(ctx context.Context, in *IngestRequestByUUID, opts ...grpc.CallOption) (*IngestStatus, error) {
-	out := new(IngestStatus)
+func (c *setterClient) SeedOneByUUID(ctx context.Context, in *IngestRequestByUUID, opts ...grpc.CallOption) (*AnyModuleIngestStatus, error) {
+	out := new(AnyModuleIngestStatus)
 	err := c.cc.Invoke(ctx, "/anymodule_proto.Setter/SeedOneByUUID", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -54,8 +54,8 @@ func (c *setterClient) SeedOneByUUID(ctx context.Context, in *IngestRequestByUUI
 	return out, nil
 }
 
-func (c *setterClient) SeedMany(ctx context.Context, in *IngestRequest, opts ...grpc.CallOption) (*IngestStatus, error) {
-	out := new(IngestStatus)
+func (c *setterClient) SeedMany(ctx context.Context, in *IngestRequest, opts ...grpc.CallOption) (*AnyModuleIngestStatus, error) {
+	out := new(AnyModuleIngestStatus)
 	err := c.cc.Invoke(ctx, "/anymodule_proto.Setter/SeedMany", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -63,8 +63,8 @@ func (c *setterClient) SeedMany(ctx context.Context, in *IngestRequest, opts ...
 	return out, nil
 }
 
-func (c *setterClient) DeleteManyByAnyUUID(ctx context.Context, in *DeleteAllRequest, opts ...grpc.CallOption) (*IngestStatus, error) {
-	out := new(IngestStatus)
+func (c *setterClient) DeleteManyByAnyUUID(ctx context.Context, in *DeleteAllRequest, opts ...grpc.CallOption) (*AnyModuleIngestStatus, error) {
+	out := new(AnyModuleIngestStatus)
 	err := c.cc.Invoke(ctx, "/anymodule_proto.Setter/DeleteManyByAnyUUID", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -76,10 +76,10 @@ func (c *setterClient) DeleteManyByAnyUUID(ctx context.Context, in *DeleteAllReq
 // All implementations must embed UnimplementedSetterServer
 // for forward compatibility
 type SetterServer interface {
-	SeedOneByRandId(context.Context, *IngestRequestByRandId) (*IngestStatus, error)
-	SeedOneByUUID(context.Context, *IngestRequestByUUID) (*IngestStatus, error)
-	SeedMany(context.Context, *IngestRequest) (*IngestStatus, error)
-	DeleteManyByAnyUUID(context.Context, *DeleteAllRequest) (*IngestStatus, error)
+	SeedOneByRandId(context.Context, *IngestRequestByRandId) (*AnyModuleIngestStatus, error)
+	SeedOneByUUID(context.Context, *IngestRequestByUUID) (*AnyModuleIngestStatus, error)
+	SeedMany(context.Context, *IngestRequest) (*AnyModuleIngestStatus, error)
+	DeleteManyByAnyUUID(context.Context, *DeleteAllRequest) (*AnyModuleIngestStatus, error)
 	mustEmbedUnimplementedSetterServer()
 }
 
@@ -87,16 +87,16 @@ type SetterServer interface {
 type UnimplementedSetterServer struct {
 }
 
-func (UnimplementedSetterServer) SeedOneByRandId(context.Context, *IngestRequestByRandId) (*IngestStatus, error) {
+func (UnimplementedSetterServer) SeedOneByRandId(context.Context, *IngestRequestByRandId) (*AnyModuleIngestStatus, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SeedOneByRandId not implemented")
 }
-func (UnimplementedSetterServer) SeedOneByUUID(context.Context, *IngestRequestByUUID) (*IngestStatus, error) {
+func (UnimplementedSetterServer) SeedOneByUUID(context.Context, *IngestRequestByUUID) (*AnyModuleIngestStatus, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SeedOneByUUID not implemented")
 }
-func (UnimplementedSetterServer) SeedMany(context.Context, *IngestRequest) (*IngestStatus, error) {
+func (UnimplementedSetterServer) SeedMany(context.Context, *IngestRequest) (*AnyModuleIngestStatus, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SeedMany not implemented")
 }
-func (UnimplementedSetterServer) DeleteManyByAnyUUID(context.Context, *DeleteAllRequest) (*IngestStatus, error) {
+func (UnimplementedSetterServer) DeleteManyByAnyUUID(context.Context, *DeleteAllRequest) (*AnyModuleIngestStatus, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteManyByAnyUUID not implemented")
 }
 func (UnimplementedSetterServer) mustEmbedUnimplementedSetterServer() {}
