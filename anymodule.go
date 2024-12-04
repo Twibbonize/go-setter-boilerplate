@@ -21,26 +21,13 @@ func (s *server) SeedOneByRandId(ctx context.Context, in *pb_anymodule.IngestReq
 	type Body struct {
 		RandId string `json:"randid" binding:"required"`
 	}
-	_, err := s.anyModuleGetter.GetByRandID(in.RandId)
+	_, err := s.anyModuleSetter.SeedByRandID(in.RandId)
 	if err != nil {
 		return &pb_anymodule.AnyModuleIngestStatus{Status: pb_anymodule.EnumStatus_BLANK}, nil
 	}
 	return &pb_anymodule.AnyModuleIngestStatus{Status: pb_anymodule.EnumStatus_SUCCESS}, nil
 }
 
-func (s *server) SeedOneByUUID(ctx context.Context, in *pb_anymodule.IngestRequestByUUID) (*pb_anymodule.AnyModuleIngestStatus, error) {
-
-	type Body struct {
-		Uuid string `json:"uuid" binding:"required"`
-	}
-
-	_, err := s.anyModuleSetter.FindByUUID(in.Uuid, true)
-	if err != nil {
-		return &pb_anymodule.AnyModuleIngestStatus{Status: pb_anymodule.EnumStatus_FAIL}, nil
-	}
-
-	return &pb_anymodule.AnyModuleIngestStatus{Status: pb_anymodule.EnumStatus_SUCCESS}, nil
-}
 
 func (s *server) SeedMany(ctx context.Context, in *pb_anymodule.IngestRequest) (*pb_anymodule.AnyModuleIngestStatus, error) {
 
@@ -52,7 +39,6 @@ func (s *server) SeedMany(ctx context.Context, in *pb_anymodule.IngestRequest) (
 	}
 
 	// Parse retrievedLengthStr as int
-
 	errFind := s.anyModuleSetter.SeedLinked(in.RetrievedLength, in.LastObjectIdHex, in.ValidLastUUID, in.AnyUUID)
 	if errFind != nil {
 		return &pb_anymodule.AnyModuleIngestStatus{Status: pb_anymodule.EnumStatus_FAIL}, nil
@@ -61,19 +47,6 @@ func (s *server) SeedMany(ctx context.Context, in *pb_anymodule.IngestRequest) (
 	return &pb_anymodule.AnyModuleIngestStatus{Status: pb_anymodule.EnumStatus_SUCCESS}, nil
 }
 
-func (s *server) DeleteManyByAnyUUID(ctx context.Context, in *pb_anymodule.DeleteAllRequest) (*pb_anymodule.AnyModuleIngestStatus, error) {
-
-	type Body struct {
-		Uuid string `json:"uuid" binding:"required"`
-	}
-
-	err := s.anyModuleSetter.DeleteManyByAnyUUID(in.Uuid)
-	if err != nil {
-		return &pb_anymodule.AnyModuleIngestStatus{Status: pb_anymodule.EnumStatus_FAIL}, nil
-	}
-
-	return &pb_anymodule.AnyModuleIngestStatus{Status: pb_anymodule.EnumStatus_SUCCESS}, nil
-}
 
 func Create(c *fiber.Ctx, anyModuleSetter *moduleboilerplate.SetterLib) error {
 
@@ -109,7 +82,7 @@ func Update(c *fiber.Ctx, anyModuleSetter *moduleboilerplate.SetterLib) error {
 		return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "Invalid input"})
 	}
 
-	entity, setError := anyModuleSetter.FindByUUID(req.UUID, true)
+	entity, setError := anyModuleSetter.FindByUUID(req.UUID)
 	if setError != nil {
 		return c.Status(http.StatusNotFound).JSON(fiber.Map{"error": setError.Message})
 	}
@@ -135,7 +108,7 @@ func Delete(c *fiber.Ctx, anyModuleSetter *moduleboilerplate.SetterLib) error {
 		return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "Invalid input"})
 	}
 
-	entity, setError := anyModuleSetter.FindByUUID(req.UUID, true)
+	entity, setError := anyModuleSetter.FindByUUID(req.UUID)
 	if setError != nil {
 		return c.Status(http.StatusNotFound).JSON(fiber.Map{"error": setError.Message})
 	}
